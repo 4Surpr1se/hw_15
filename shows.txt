@@ -1,0 +1,70 @@
+create table outcome_type
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100)
+);
+
+create table outcome_subtype
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100)
+);
+
+create table show_outcome
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    subtype_id INTEGER,
+    type_id INTEGER,
+    month INTEGER,
+    year INTEGER,
+    FOREIGN KEY (type_id) REFERENCES outcome_type(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (subtype_id) REFERENCES outcome_subtype(id) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+create table show_breed
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100)
+);
+
+create table animal_type
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100)
+);
+
+create table show_animal
+(
+    id INTEGER PRIMARY KEY,
+    type_id INTEGER,
+    FOREIGN KEY (type_id) REFERENCES animal_type(id) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+create table color
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    name VARCHAR(100)
+);
+
+create table shows
+(
+    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    age_upon_outcome INTEGER,
+    animal_id INTEGER,
+    name VARCHAR (100),
+    breed_id INTEGER,
+    date_of_birth DATETIME,
+    outcome_id INTEGER,
+    FOREIGN KEY (outcome_id) REFERENCES show_outcome(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (breed_id) REFERENCES show_breed(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (animal_id) REFERENCES show_animal(id) ON DELETE SET NULL ON UPDATE CASCADE
+);
+
+create table show_color
+(
+    show_id INTEGER,
+    color_id INTEGER,
+    FOREIGN KEY (show_id) REFERENCES show(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    FOREIGN KEY (color_id) REFERENCES color(id) ON DELETE SET NULL ON UPDATE CASCADE,
+    PRIMARY KEY (show_id, color_id)
+);
